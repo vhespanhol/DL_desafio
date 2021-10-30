@@ -7,6 +7,7 @@ import tensorflow as tf
 from tensorflow import keras
 from keras.utils.np_utils import to_categorical
 from PIL import Image
+import sys
 
 
 class BaseNet:
@@ -86,18 +87,28 @@ class StudentModel(BaseNet):
         """
         Load the student's trained model.
         TODO: update the default `model_path` 
-              to be the correct path for your best model!
+            to be the correct path for your best model!
         """
         #------------------------------------------------------------------------------
-        # Get model path
-        if model_path == 'default path':         
-          import deep_equation
-          model_path =  str(deep_equation.__path__[0]) + '/model/model.h5'
-          #print(model_path)
-
-        # Load model
-        self.model = keras.models.load_model(model_path)
-        #self.model.summary()
+        # Get model path        
+        if model_path == 'default path':
+            try:
+                for ipath in sys.path:
+                    if 'deep_equation' in ipath:
+                        model_path =  ipath + '/deep_equation/model/model.h5'
+                # Load model
+                self.model = keras.models.load_model(model_path)
+            except:
+                print('Path não encontrado via sys.path:')
+                print('Tentando caminho relativo:')
+                model_path = 'src/deep_equation/model/model.h5'
+                print('Arquivo modelo: ',model_path)
+                # Load model
+                self.model = keras.models.load_model(model_path)
+        else:
+            # Load model
+            self.model = keras.models.load_model(model_path)
+            #self.model.summary()
         return
     
     # TODO:
@@ -152,11 +163,11 @@ class StudentModel(BaseNet):
         ####### PREDICTION #######
         y_pred = []
         for i in range(len(X1)):
-             x1 = X1[i,:,:,:].reshape([1,224,224,3])
-             x2 = X2[i,:,:,:].reshape([1,224,224,3])
-             xo = Xop[i,:].reshape([1,4])
-             y_pred.append(self.model.predict([x1,x2,xo]))
-             
+            x1 = X1[i,:,:,:].reshape([1,224,224,3])
+            x2 = X2[i,:,:,:].reshape([1,224,224,3])
+            xo = Xop[i,:].reshape([1,4])
+            y_pred.append(self.model.predict([x1,x2,xo]))
+            
         #------------------------------------------------------------------------------
         ####### POST PROCESSING #######
         # Function onehot -> float

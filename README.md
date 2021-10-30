@@ -1,11 +1,13 @@
-# Desafio da Disciplina de Aprendizado Profundo
+# DL Desafio
 
-Trabalho da disciplina de Aprendizado Profundo. Pacote deep_equation adaptado para novo preditor/modelo (StudentModel) 
+Trabalho da disciplina 'Aprendizado Profundo'. 
+
+Pacote deep_equation adaptado para novo preditor/modelo (StudentModel) 
 
 ## Instalação
 ```sh
 cd <your_repository>
-git clone DL_desafio
-cd deep_equation
+git clone https://github.com/vhespanhol/DL_desafio.git
+cd DL_desafio
 pip install -e deep_equation
 ```

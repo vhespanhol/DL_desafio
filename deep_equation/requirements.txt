@@ -1,0 +1,6 @@
+tqdm==4.58.0
+pytest
+Pillow
+numpy
+tensorflow==2.6.0
+keras==2.6.0
